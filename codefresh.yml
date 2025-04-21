@@ -1,0 +1,20 @@
+version: '1.0'
+stages:
+  - prepare
+  - test
+
+steps:
+  main_clone:
+    title: Clone repository
+    type: git-clone
+    repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+    revision: '${{CF_BRANCH}}'
+    stage: prepare
+
+  run_tests:
+    title: Run Node.js tests
+    image: node:18
+    stage: test
+    commands:
+      - npm ci || npm install
+      - npm test
